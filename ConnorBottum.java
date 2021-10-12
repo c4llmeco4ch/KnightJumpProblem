@@ -91,7 +91,6 @@ public class ConnorBottum{
         Integer pos[] = positions.get(curr);
         int y = pos[0];
         int x = pos[1];
-        System.out.printf("Its coordinates are (%d, %d)\n", y, x);
         ArrayList<Character> moves = new ArrayList<Character>();
         int left = (x < 1 ? 0 : x < 2 ? 1 : 2);
         int right = (x >= board[0].length - 1 ? 0 : x >= board[0].length - 2 ? 1 : 2);
