@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,9 +10,10 @@ public class ConnorBottum{
 
     final static int MAX_CONSTRAINED = 2;
     final static char[] CONSTRAINED_CHARS = {'a', 'e', 'i', 'o', 'u', 'y'}; // sorted
+    static HashMap<Character, Integer[]> positions;
 
     public static void main(String[] args){
-
+        SolveMatrix();
     }
 
     /**
@@ -36,7 +38,7 @@ public class ConnorBottum{
         while(!pathQueue.isEmpty()){
             String current = pathQueue.remove(0);
             int l = current.length();
-            char[] moves = calcJumps(current.charAt(l - 1), grid);
+            Character[] moves = calcJumps(current.charAt(l - 1), grid);
             for(char c : moves){
                 String possibleMove = current + c;
                 if(isValid(possibleMove)){
@@ -76,8 +78,48 @@ public class ConnorBottum{
      * @param board
      * @return
      */
-    private static char[] calcJumps(char curr, char[][] board){
-        
+    private static Character[] calcJumps(char curr, char[][] board){
+        Integer pos[] = positions.get(curr);
+        int y = pos[0];
+        int x = pos[1];
+        ArrayList<Character> moves = new ArrayList<Character>();
+        int left = (x < 1 ? 0 : x < 2 ? 1 : 2);
+        int right = (x >= board[0].length ? 0 : x > board[0].length - 1 ? 1 : 2);
+        int top = (y < 1 ? 0 : y < 2 ? 1 : 2);
+        int bottom = (y >= board.length ? 0 : y > board.length - 1 ? 1 : 2);
+        if(left >= 1){
+            if(top >= 2){
+                moves.add(board[y - 2][x - 1]);
+            }
+            if(bottom >= 2){
+                moves.add(board[y + 2][x - 1]);
+            }
+        }
+        if(left >= 2){
+            if(top >= 1){
+                moves.add(board[y - 1][x - 2]);
+            }
+            if(bottom >= 1){
+                moves.add(board[y + 1][x - 2]);
+            }
+        }
+        if(right >= 1){
+            if(top >= 2){
+                moves.add(board[y - 2][x + 1]);
+            }
+            if(bottom >= 2){
+                moves.add(board[y + 2][x + 1]);
+            }
+        }
+        if(right >= 2){
+            if(top >= 1){
+                moves.add(board[y - 1][x + 2]);
+            }
+            if(bottom >= 1){
+                moves.add(board[y + 1][x + 2]);
+            }
+        }
+        return (Character[])moves.toArray();
     }
 
 
@@ -135,6 +177,7 @@ public class ConnorBottum{
         String[] dimensions = inputFile.nextLine().split("x");
         int rows = Integer.parseInt(dimensions[1]);
         int cols = Integer.parseInt(dimensions[0]);
+        positions = new HashMap<Character, Integer[]>();
         char[][] board = new char[rows][cols];
         for(int r = 0; r < rows; r++){
             String line = inputFile.nextLine();
@@ -143,6 +186,8 @@ public class ConnorBottum{
             }
             for(int c = 0; c < cols; c++){
                 board[r][c] = line.charAt(c);
+                Integer[] pos = {r, c};
+                positions.put(Character.valueOf(board[r][c]), pos);
             }
         }
         return board;
