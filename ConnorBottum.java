@@ -3,6 +3,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class ConnorBottum{
 
@@ -76,7 +77,7 @@ public class ConnorBottum{
      * @return
      */
     private static char[] calcJumps(char curr, char[][] board){
-
+        
     }
 
 
@@ -123,7 +124,27 @@ public class ConnorBottum{
      * @return     the 2D "chess board"
      */
     private static char[][] parseFile(String path){
-        Scanner inputFile = new Scanner(new File(path));
-
+        Scanner inputFile = null;
+        try{
+            inputFile = new Scanner(new File(path));
+        }
+        catch(FileNotFoundException e){
+            System.out.println("No file found at " + path);
+            System.exit(1);
+        }
+        String[] dimensions = inputFile.nextLine().split("x");
+        int rows = Integer.parseInt(dimensions[1]);
+        int cols = Integer.parseInt(dimensions[0]);
+        char[][] board = new char[rows][cols];
+        for(int r = 0; r < rows; r++){
+            String line = inputFile.nextLine();
+            if(line.length() != cols){
+                System.out.printf("Line %d has an incorrect length of %d characters.", rows, cols);
+            }
+            for(int c = 0; c < cols; c++){
+                board[r][c] = line.charAt(c);
+            }
+        }
+        return board;
     }
 }
