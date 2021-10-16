@@ -15,7 +15,7 @@ public class ConnorBottum{
 
     public static void main(String[] args){
         long pathCount = SolveMatrix();
-        System.out.printf("There are %d total paths", pathCount);
+        System.out.printf("There are %d total paths\n", pathCount);
     }
 
     /**
