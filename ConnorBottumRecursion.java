@@ -9,7 +9,7 @@ public class ConnorBottumRecursion{
 
     final static int MAX_CONSTRAINED = 2;
     final static int MAX_PATH_LENGTH = 8;
-    final static char[] CONSTRAINED_CHARS = {'a', 'e', 'i', 'o', 'u', 'y'}; // sorted
+    final static char[] CONSTRAINED_CHARS = {'a', 'e', 'i', 'o', 'u', 'y'};
     final static char[] EMPTY_CHARS = {'-', ' '};
     static HashMap<Character, Integer[]> positions;
     static HashSet<String> finalPaths;
